@@ -1,0 +1,46 @@
+const int ledPin=13; //pin 13 built-in led
+int Astate=0; //store the value of A0
+boolean Dstate=0; //store the value of D0
+void setup() 
+{
+  pinMode(ledPin,OUTPUT); //set the ledPin as OUTPUT 
+  pinMode(digitalPin,INPUT); //set digitalPin as INPUT
+  Serial.begin(9600); //initialize the serial monitor
+  lcd.init();  //initialize the lcd
+  lcd.backlight();  //open the backlight 
+}
+void loop() 
+{
+  Astate=analogRead(analogPin); //read the value of A0
+  Serial.print("A0: ");
+  Serial.println(Astate); //print the value in the serial monitor
+  Dstate=digitalRead(digitalPin); //read the value of D0
+  Serial.print("D0: ");
+  Serial.println(Dstate);
+  if(Dstate==HIGH) 
+  {
+    digitalWrite(ledPin,LOW);
+    //turn off lcd
+  }
+  else //if the value of D0 is LOW
+  {
+    digitalWrite(ledPin,HIGH); //turn on the led
+    //turn on lcd
+    lcd.setCursor(15,0);  // set the cursor to column 15, line 0
+    for (int positionCounter1 = 0; positionCounter1 < 26; positionCounter1++)
+    {
+      lcd.scrollDisplayLeft();  //Scrolls the contents of the display one space to the left.
+      lcd.print(array1[positionCounter1]);  // Print a message to the LCD.
+      delay(tim);  //wait for 250 microseconds
+    }
+    lcd.clear();  //Clears the LCD screen and positions the cursor in the upper-left corner.
+    lcd.setCursor(15,1);  // set the cursor to column 15, line 1
+    for (int positionCounter = 0; positionCounter < 26; positionCounter++)
+    {
+      lcd.scrollDisplayLeft();  //Scrolls the contents of the display one space to the left.
+      lcd.print(array2[positionCounter]);  // Print a message to the LCD.
+      delay(tim);  //wait for 250 microseconds
+    }
+    lcd.clear();  //Clears the LCD screen and positions the cursor in the upper-left corner.
+  }
+}
